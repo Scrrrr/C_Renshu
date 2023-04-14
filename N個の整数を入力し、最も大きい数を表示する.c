@@ -2,6 +2,7 @@
 #include<stdlib.h>
 
 #define NUMBER 8
+/*é¿ç€ÇÕ7å¬Ç…Ç»ÇÈ*/
 
 int main(void) {
 	char str[NUMBER + 1][32];
