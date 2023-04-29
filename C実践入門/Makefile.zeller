@@ -1,0 +1,8 @@
+PROGRAM = 	zeller
+OBJS		=		zeller.o
+SRCS		=		$(OBJS:%.o=%.c)
+CFLAGS	=		-g -Wall
+LDFLAGS =		
+
+$(PROGRAM):$(OBJS)
+	$(CC) $(CFAGS) $(LDFLAGS) -o $(PROGRAM) $(OBJS) $(LDLIBS)
