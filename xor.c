@@ -4,19 +4,29 @@
 #include <limits.h>
 #include <string.h>
 
+int GetMessageEncryptDecrypt(const char *, const char *, int *);
+
 int GetMessageEncryptDecrypt(const char *prompt, const char *err_msg, int *flag)
 {
   char InputString[32];
   char key;
   int length;
 
-  printf("%s",prompt);
-  if(fgets(InputString,sizeof(InputString),stdin) >= )
+  if(flag == NULL)
   {
-    fseek(stdin, 0 , SEEK_END);
-    printf("%s",err_msg);
+    printf("Error.\n");
     return -1;
   }
+
+  printf("%s",prompt);
+  getchar();
+
+ if(fgets(InputString, sizeof(InputString),stdin) == NULL)
+ {
+   fseek(stdin, -1 , SEEK_END);
+   printf("%s",err_msg);
+   return -1;
+ }
 
   printf("キーを入力してください:");
   key = getchar();
@@ -29,8 +39,6 @@ int GetMessageEncryptDecrypt(const char *prompt, const char *err_msg, int *flag)
   }
 
   length = strlen(InputString) - 1;
-
-  errno = 0;
 
   putchar('\n');
   printf("+------Result------+\n");
@@ -49,39 +57,41 @@ int GetMessageEncryptDecrypt(const char *prompt, const char *err_msg, int *flag)
 
 int main(int argc, char *argv[])
 {
-  char select_c[3];
-  char c;
+  int c;
   int select;
 
   do
   {
-    puts("XOR 暗号化と複合を行うプログラムです");
-    puts("このプログラムでは名前を暗号化または復号化することを想定としています!");
-    puts("複合する→0  暗号化する→1");
+    printf("XOR 暗号化と複合を行うプログラムです\n");
+    printf("このプログラムでは名前を暗号化または復号化することを想定としています!\n");
+
+
+    printf("複合する→0  暗号化する→1\n");
     putchar(':');
-      
-    fgets(select_c,sizeof(select_c),stdin); 
-    select = strtol(select_c,NULL,10);
-  
-    if(select)// 暗号化する
-    { 
-      if(GetMessageEncryptDecrypt("\n暗号化したい文を入力してください:" , "\n入力エラー\n", &select) == -1 )
-          continue;
-    }
-    else // 複合する
+
+    select = getchar();
+    
+    if(select != '1' && select != '0')
     {
-      if(GetMessageEncryptDecrypt("\n復号したい文を入力してください:\n","\n入力エラー\n", &select) == -1)
+      printf("input error\n");
+      continue;
+    }
+
+    if(select == '1')// 暗号化する
+    { 
+      if(GetMessageEncryptDecrypt("暗号化したい文を入力してください:","\n入力エラー\n", &select) == -1 )
+          continue;
+    }else{ // 複合する
+      if(GetMessageEncryptDecrypt("復号したい文を入力してください:","\n入力エラー\n", &select) == -1)
           continue;
     }
-  
-    //printf("やめるには[q]を、続けるには[Return]を押してください\n");
-  
-    printf("Input q[return] to quit, [return] to continue.\n");
+
+    printf("Input q[return] to quit, [return] to continue.");
+    getchar();
     c = getchar();
-  
     if(c == EOF)
       fseek(stdin, 0, SEEK_END); //BSDではこれがないとエラーになる
-  
+      
   }while(c != 'q');
 
   return 0;
