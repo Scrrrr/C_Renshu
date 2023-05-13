@@ -3,11 +3,18 @@
 
 int main(void)
 {
-  char databese[] = "064-0393,ASAHIGAOKA,CHUO-KU SAPPPORO-SHI,"
-                    "HOKKAIDO\n023-1123,ODORIHIGASHI,CHUO-KU "
-                    "SAPPORO-SHI,HOKKAIDO\n023-3384,"
-                    "ODORINISHI(1-19-CHOME),CHUO-KU"
-                    "SAPPORO-SHI,HOKKAIDO";
+ char databese[] =    "5400016 , OSAKA FU , OSAKA SHI CHUO KU , KANZAKICHO"
+                      "5410057 , OSAKA FU , OSAKA SHI CHUO KU , KITAKYUHOJIMACHI"
+                      "5400023 , OSAKA FU , OSAKA SHI CHUO KU , KITASHIMMACHI"
+                      "5410041 , OSAKA FU , OSAKA SHI CHUO KU , KITAHAMA"
+                      "5400031 , OSAKA FU , OSAKA SHI CHUO KU , KITAHAMAHIGASHI"
+                      "5410056 , OSAKA FU , OSAKA SHI CHUO KU , KYUTAROMACHI"
+                      "5420072 , OSAKA FU , OSAKA SHI CHUO KU , KOZU"
+                      "5410043 , OSAKA FU , OSAKA SHI CHUO KU , KORAIBASHI"
+                      "5400018 , OSAKA FU , OSAKA SHI CHUO KU , KOKAWACHO"; 
+                       
+                       
+                       
 
   char *p1, *p2;
   char *token;
