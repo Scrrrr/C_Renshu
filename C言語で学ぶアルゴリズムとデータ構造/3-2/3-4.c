@@ -2,13 +2,14 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-int search(const int a[], int n, int key)
+int search(const int a[], int n, int key) //配列,要素数,検索値
 {
     int pl = 0;     //探索範囲の先頭の添え字
     int pr = n -1;  //探索範囲の末尾の添え字
+    int pc;
 
     do{
-        int pc = (pl + pr) / 2;
+        pc = (pl + pr) / 2;
 
         if(a[pc] == key)
         {

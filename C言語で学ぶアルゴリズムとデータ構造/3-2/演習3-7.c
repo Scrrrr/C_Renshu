@@ -38,11 +38,11 @@ int main(void)
     printf("検索値 : "); scanf("%d",&s);
 
     p = seqsearch(
-        &s,
-        array,
-        sizeof(array) / sizeof(array[0]),
-        sizeof(int),
-        (int (*)(const void *, const void*))cmp
+        &s, //検索値へのアドレス値
+        array, //配列のポインタ
+        sizeof(array) / sizeof(array[0]),  //配列の長さ
+        sizeof(int), //要素のサイズ
+        (int (*)(const void *, const void*))cmp //比較関数
     );
 
 	if (p == NULL)
