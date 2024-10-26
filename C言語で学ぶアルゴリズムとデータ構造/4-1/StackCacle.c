@@ -54,10 +54,39 @@ int stack_pop(Item *item)
     }
 
     *item = stack[--stack_pos];
+    return 1;
 }
 
 Item calc(void)
 {
+    Item item;
+    if(!stack_pop(&item))
+    {
+        return ItemNull;
+    }
+
+    switch(item.type)
+    {
+        default: return item; break;
+        case IT_ADD:{
+            Item op2 = calc();
+            Item op1 = calc();
+            Item result;
+            result.type = IT_DIGIT;
+            result.value = op1.value + op2.value;
+            stack_push(result);
+            return calc();
+        }break;
+        case IT_SUB:{
+            Item op2 = calc();
+            Item op1 = calc();
+            Item result;
+            result.type = IT_DIGIT;
+            result.value = op1.value - op2.value;
+            stack_push(result);
+            return calc();
+        }break;
+    }
 
 }
 
