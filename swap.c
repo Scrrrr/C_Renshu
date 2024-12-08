@@ -9,14 +9,14 @@ void strchange(char *str)
 
     switch (1)
     {
-        case 1:
+        case 1: //こっちでは先頭アドレスが保持されない！
             while(*str)
             {
                 str++;
                 len++;
             }
             break;
-        case 2:
+        case 2: //ポインタの位置が変更されない！
             while(str[len])
             {
                 len++;
