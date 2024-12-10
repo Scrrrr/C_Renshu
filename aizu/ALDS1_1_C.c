@@ -18,15 +18,42 @@ goto:素数じゃない
 int prime(int n, int array[])
 {
     int count = 0;
-    for(int i = 0; i < n; i++)
+    int primes[5000] = {0};
+
+    for(int i = 2; i < n; i++)
     {
-        int j;
-        for(j = 2; j <= array[i]; j++)
+        int is_prime = 1;
+
+        for(int j = 0; j < count; j++)
         {
-            if(array[i] % j == 0) break;
+            if(primes[j] * primes[j] == 0) break;
+
+            if(array[i] % primes[i] == 0)
+            {
+                is_prime = 0;
+                break;
+            }
         }
-        if(j == array[i])
+            
+
+        if(is_prime)
+        {
+            for(int j =2; j * j <= array[i]; j++)
+            {
+                if(array[i] % j == 0)
+                {
+                    is_prime = 0;
+                    break;
+                }
+            }
+        }
+
+        if(is_prime)
+        {
+            primes[count] = array[i];
             count++;
+        }
+
     }
 
     return count;
