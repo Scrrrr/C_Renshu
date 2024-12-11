@@ -1,61 +1,44 @@
 #include<stdio.h>
-#include<stdlib.h>
+#define Stack_Size 100
+
+int push(int *Stack, int *sp, int n)
+{
+    if(*sp > Stack_Size)
+    {
+        return -1;
+    }
+    Stack[*sp] = n;
+    (*sp)++;
+    return 0;
+}
 
 int main(void)
 {
-    char *string;
-    string = (char *)malloc(sizeof(char) * );
-    scanf("%s")
+    int c,n;
+    int spp = 0;
+    int *sp = &spp;
+    int Stack[Stack_Size];
+
+    do
+    {
+        printf("Select Menu:");
+        c = getchar();
+        if(c == 'i' || c == 'I')//push
+        {
+            printf("data -->");
+            scanf("%d",&n);
+            if(push(Stack,sp,n) == -1)
+            {
+                printf("error");
+            }
+        }
+        if(c == 's' || c == 'S')//show stack
+        {
+            for(int i = 0; i < sizeof(Stack) / sizeof(Stack[0]); i++)
+            {
+                printf("%d ",Stack[i]);
+            }
+            putchar('\n');
+        }
+    }while(c != EOF);
 }
-
-
-
-/*
-|¯¯¯¯¯¯¯¯¯¯¯|  }
-|     +     |  }
-¯¯¯¯¯¯¯¯¯¯¯¯¯  }
-|¯¯¯¯¯¯¯¯¯¯¯|  }  
-|     2     |  }  > 揃った！
-¯¯¯¯¯¯¯¯¯¯¯¯¯  }
-|¯¯¯¯¯¯¯¯¯¯¯|  }
-|     1     |  }
-¯¯¯¯¯¯¯¯¯¯¯¯¯  }
-      ↓
-|¯¯¯¯¯¯¯¯¯¯¯|
-|     3     |  }  > 合体してPUSH!
-¯¯¯¯¯¯¯¯¯¯¯¯¯
-      ↓
-|¯¯¯¯¯¯¯¯¯¯¯|
-|     3     |
-¯¯¯¯¯¯¯¯¯¯¯¯¯  } PUSH!
-|¯¯¯¯¯¯¯¯¯¯¯|
-|     3     |
-¯¯¯¯¯¯¯¯¯¯¯¯¯
-      ↓
-|¯¯¯¯¯¯¯¯¯¯¯|  }
-|     -     |  }
-¯¯¯¯¯¯¯¯¯¯¯¯¯  }
-|¯¯¯¯¯¯¯¯¯¯¯|  }  
-|     4     |  }  >揃った！
-¯¯¯¯¯¯¯¯¯¯¯¯¯  }
-|¯¯¯¯¯¯¯¯¯¯¯|  }
-|     3     |  }
-¯¯¯¯¯¯¯¯¯¯¯¯¯  
-|¯¯¯¯¯¯¯¯¯¯¯|
-|     3     |
-¯¯¯¯¯¯¯¯¯¯¯¯¯
-      ↓
-|¯¯¯¯¯¯¯¯¯¯¯|  }  
-|     *     |  } 
-¯¯¯¯¯¯¯¯¯¯¯¯¯  }
-|¯¯¯¯¯¯¯¯¯¯¯|  }
-|    -1     |  } >揃った！
-¯¯¯¯¯¯¯¯¯¯¯¯¯  }
-|¯¯¯¯¯¯¯¯¯¯¯|  }
-|     3     |  }
-¯¯¯¯¯¯¯¯¯¯¯¯¯
-      ↓
-|¯¯¯¯¯¯¯¯¯¯¯| 
-|    -3     | 
-¯¯¯¯¯¯¯¯¯¯¯¯¯
-*/
