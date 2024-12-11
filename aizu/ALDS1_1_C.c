@@ -73,5 +73,6 @@ int main(void)
 
     ans = prime(n,array);
     printf("%d\n",ans);
+    free(array);
     
 }
