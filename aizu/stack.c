@@ -121,19 +121,12 @@ Item calc(void)
     return ItemNull;
 }
 
-int main(void)
+int main(int argc,char *argv[])
 {
-    char formula[200];
-    fgets(formula,sizeof formula,stdin);
-    formula[strcspn(formula, "\n")] = 0;
-
-    for(int i = 0; i < strlen(formula); i++)
+    for(int i = 1; i < argc; i++)
     {
-        if(formula[i] != ' ') 
-        {
-            Item item = parse_arg(&formula[i]);
-            stack_push(item);
-        }
+        Item item = parse_arg(argv[i]);
+        stack_push(item);
     }
 
     Item result = calc();
