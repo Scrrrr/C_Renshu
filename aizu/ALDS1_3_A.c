@@ -94,10 +94,13 @@ int main(void)
 {
     char strings[200];
     fgets(strings,sizeof(strings),stdin);
-    for(int i = 0; i != '\n'; i++)
+    for(int i = 0; i < strlen(strings); i++)
     {
-        Item item = parse_arg(&strings[i]);
-        stack_push(item);
+        if(strings[i] != ' ')
+        {
+            Item item = parse_arg(&strings[i]);
+            stack_push(item);
+        }
     }
 
     Item result = calc();

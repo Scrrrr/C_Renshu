@@ -1,136 +1,103 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
 
-enum{
-    STACK_SIZE = 100,
-};
+#define STACK_SIZE 100
 
-typedef enum{
-    IT_NULL,
-    IT_DIGIT,
-    IT_ADD,
-    IT_SUB,
-    IT_MUL,
-    IT_DIV,
-}ItemType;
+int stack[STACK_SIZE];
+static int sp;
 
-typedef struct{
-    ItemType type;
-    int value;
-}Item;
-
-Item ItemNull;
-Item stack[STACK_SIZE];
-int stack_sp;
-
-Item parse_arg(const char *s)
+int push(int n)
 {
-    if(!strcmp(s,"+"))
-    {
-        return(Item) { .type=IT_ADD};
-    }else if(!strcmp(s,"-")){
-        return(Item) { .type=IT_SUB};
-    }else if(!strcmp(s,"*")){
-        return(Item) { .type=IT_MUL};
-    }else if(!strcmp(s,"/")){
-        return(Item) { .type=IT_DIV};
-    }else{
-        return(Item) { .type=IT_DIGIT, .value=atoi(s)};
-    }
-
-}
-
-void stack_push(Item item)
-{
-    if(stack_sp >= STACK_SIZE)
+    if(sp > STACK_SIZE)
     {
         fprintf(stderr,"stack overflow!\n");
         exit(EXIT_FAILURE);
     }
 
-    stack[stack_sp++] = item;
-}
-
-int stack_pop(Item *item)
-{
-    if(stack_sp <= 0)
-    {
-        return 0;
-    }
-
-    *item = stack[--stack_sp]; //デクリメントしてから
+    stack[sp] = n;
+    sp += 1;
 
     return 1;
 }
 
-Item calc(void)
+int pop()
 {
-    Item item;
-    if(!stack_pop(&item))
+    if(sp < 0)
     {
-        return ItemNull;
+        fprintf(stderr,"stack underflow!");
     }
 
-    switch (item.type)
-    {
-        default: return item; break;
+    sp -= 1;
 
-        case IT_ADD:{
-            Item op2 = calc();
-            Item op1 = calc();
-            Item result;
-            result.type = IT_DIGIT;
-            result.value = op1.value + op2.value;
-            stack_push(result);
-            return calc();
-        }break;
-        case IT_SUB:{
-            Item op2 = calc();
-            Item op1 = calc();
-            Item result;
-            result.type = IT_DIGIT;
-            result.value = op1.value - op2.value;
-            stack_push(result);
-            return calc();
-        }break;
-        case IT_MUL:{
-            Item op2 = calc();
-            Item op1 = calc();
-            Item result;
-            result.type = IT_DIGIT;
-            result.value = op1.value * op2.value;
-            stack_push(result);
-            return calc();
-        }break;
-        case IT_DIV:{
-            Item op2 = calc();
-            Item op1 = calc();
-            Item result;
-            if(op2.value == 0.0)
-            {
-                fprintf(stderr,"zero division error\n");
-                exit(EXIT_FAILURE);
-            }
-            result.type = IT_DIGIT;
-            result.value = op1.value / op2.value;
-            stack_push(result);
-            return calc();
-        }break;
-    }
-    return ItemNull;
+    return stack[sp];
 }
 
-int main(int argc,char *argv[])
+void showstack()
 {
-    for(int i = 1; i < argc; i++)
+    for(int i = 0; i < sp; i++)
     {
-        Item item = parse_arg(argv[i]);
-        stack_push(item);
+        if(i != (sp - 1))
+            printf("|%2d",stack[i]);
+        else
+            printf("|%2d|\n",stack[i]);
+    }
+}
+
+void parse(const char *s)
+{
+    int op1,op2,result;
+
+    if(!strcmp(s,"+"))
+    {
+        op2 = pop();
+        op1 = pop();
+        result = op1 + op2;
+        push(result);
+    }else if(!strcmp(s,"-"))
+    {
+        op2 = pop();
+        op1 = pop();
+        result = op1 - op2;
+        push(result);
+    }else if(!strcmp(s,"*"))
+    {
+        op2 = pop();
+        op1 = pop();
+        result = op1 * op2;
+        push(result);
+    }else if(!strcmp(s,"/"))
+    {
+        op2 = pop();
+        op1 = pop();
+        if(op2 == 0)
+        {
+            fprintf(stderr,"zero division!\n");
+            exit(EXIT_FAILURE);
+        }
+        result = op1 / op2;
+        push(result);
+    }else{
+        push(atoi(s));
+    }
+}
+
+int main(void)
+{
+    char input[400];
+    
+    fgets(input, sizeof(input), stdin);
+    input[strcspn(input, "\n")] = 0; 
+
+    char *s = strtok(input, " ");
+    while(s)
+    {
+        parse(s);
+        s = strtok(NULL, " ");
     }
 
-    Item result = calc();
-    fflush(stdout);
+    int result = pop();
+    printf("%d\n", result);
 
-    printf("%d\n",result.value);
+    return 0;
 }
